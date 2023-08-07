@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xceed_group/auth/log_in_screen/log_in_screen.dart';
 import 'package:xceed_group/auth/on_boarading_screen/on_boarding_controller.dart';
 
 class OnBoardingScreen extends StatelessWidget {
@@ -11,16 +12,16 @@ class OnBoardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(
-        () => PageView.builder(
-          controller: onBoardingController.pageController,
-          scrollDirection: Axis.horizontal,
-          itemCount: onBoardingController.onBoardingData.length,
-          onPageChanged: (page) {
-            onBoardingController.currentPage.value = page;
-          },
-          itemBuilder: (BuildContext context, int index) {
-            return Column(
+      body: PageView.builder(
+        controller: onBoardingController.pageController,
+        scrollDirection: Axis.horizontal,
+        itemCount: onBoardingController.onBoardingData.length,
+        onPageChanged: (page) {
+          onBoardingController.currentPage.value = page;
+        },
+        itemBuilder: (BuildContext context, int index) {
+          return Obx(
+            () => Column(
               children: [
                 const SizedBox(height: 150),
                 Image.asset(
@@ -43,7 +44,7 @@ class OnBoardingScreen extends StatelessWidget {
                       .toString(),
                 ),
                 const SizedBox(height: 20),
-                onBoardingController.currentPage + 1 ==
+                onBoardingController.currentPage.value + 1 ==
                         onBoardingController.onBoardingData.length
                     ? Padding(
                         padding: const EdgeInsets.only(bottom: 100),
@@ -64,7 +65,7 @@ class OnBoardingScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () => Get.to(() => const LogInScreen()),
                             child: const Text(
                               'Get started',
                               style: TextStyle(fontSize: 22),
@@ -85,7 +86,8 @@ class OnBoardingScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20),
                               ),
-                              onPressed: () {},
+                              onPressed: () =>
+                                  Get.to(() => const LogInScreen()),
                             ),
                             SizedBox(
                               height: 8,
@@ -97,7 +99,8 @@ class OnBoardingScreen extends StatelessWidget {
                                   return Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(50),
-                                      color: onBoardingController.currentPage ==
+                                      color: onBoardingController
+                                                  .currentPage.value ==
                                               index
                                           ? Colors.blue
                                           : Colors.blue.shade100,
@@ -105,7 +108,8 @@ class OnBoardingScreen extends StatelessWidget {
                                     margin: const EdgeInsets.symmetric(
                                         horizontal: 5),
                                     height: 8,
-                                    width: onBoardingController.currentPage ==
+                                    width: onBoardingController
+                                                .currentPage.value ==
                                             index
                                         ? 25
                                         : 8,
@@ -131,9 +135,9 @@ class OnBoardingScreen extends StatelessWidget {
                         ),
                       ),
               ],
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
