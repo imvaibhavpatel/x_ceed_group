@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xceed_group/auth/log_in_screen/log_in_screen.dart';
 import 'package:xceed_group/auth/on_boarading_screen/on_boarding_controller.dart';
+import 'package:xceed_group/utils/app_color.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   final OnBoardingController onBoardingController =
@@ -62,13 +63,13 @@ class OnBoardingScreen extends StatelessWidget {
                       margin: const EdgeInsets.only(bottom: 15),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
-                        border: Border.all(color: Colors.blue.shade800),
+                        border: Border.all(color: AppColor.appColor),
                       ),
                       child: Center(
                           child: Text(
                         "Get Started",
                         style: TextStyle(
-                          color: Colors.blue.shade800,
+                          color: AppColor.appColor,
                         ),
                       )),
                     ),
@@ -101,7 +102,7 @@ class OnBoardingScreen extends StatelessWidget {
                                   color:
                                       onBoardingController.currentPage.value ==
                                               index
-                                          ? Colors.blue.shade800
+                                          ? AppColor.appColor
                                           : Colors.grey,
                                 ),
                                 margin:
@@ -119,7 +120,7 @@ class OnBoardingScreen extends StatelessWidget {
                           child: Text(
                             'Next',
                             style: TextStyle(
-                              color: Colors.blue.shade800,
+                              color: AppColor.appColor,
                             ),
                           ),
                           onPressed: () {
