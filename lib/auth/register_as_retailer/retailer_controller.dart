@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+import 'package:xceed_group/utils/base_url.dart';
 
-class RetailerController extends GetxController{
+import 'model/countries_model.dart';
+
+class RetailerController extends GetxController {
   final retailerRegKey = GlobalKey<FormState>();
 
   TextEditingController fullNameController = TextEditingController();
@@ -15,31 +19,65 @@ class RetailerController extends GetxController{
   TextEditingController panImageController = TextEditingController();
   TextEditingController gstImageController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+
   ImagePicker picker = ImagePicker();
-
-
+RxString selectedValue = "".obs;
   RxBool isCheck = false.obs;
-  RxString countryValue = "".obs;
-  RxString stateValue = "".obs;
-  RxString cityValue = "".obs;
-
+  RxList<Country> countriesList = <Country>[].obs;
+  RxInt page = 1.obs;
 
   getAdhaarDoc() async {
     final image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
-     adhaarImageController.text = image.name.toString();
+      adhaarImageController.text = image.name.toString();
     }
   }
+
   getPanCardDoc() async {
     final image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       panImageController.text = image.name.toString();
     }
   }
+
   getGstDoc() async {
     final image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       gstImageController.text = image.name.toString();
     }
+  }
+
+  getCountry() async {
+    try {
+      final response = await http.get(
+        Uri.parse(
+            "${BaseUrl.baseUrl}${BaseUrl.countriesUrl}page=${page.value}&country_name="),
+      );
+      if (response.statusCode == 200) {
+        countriesList.value = countriesModelFromJson(response.body).countries;
+        if (countriesModelFromJson(response.body).totalPages != page.value) {
+          page.value = page.value + 1;
+          getCountry();
+        }
+      } else {
+        debugPrint("some error");
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  // @override
+  // void onReady() {
+  //   // TODO: implement onReady
+  //   super.onReady();
+  //   getCountry();
+  // }
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    getCountry();
   }
 }

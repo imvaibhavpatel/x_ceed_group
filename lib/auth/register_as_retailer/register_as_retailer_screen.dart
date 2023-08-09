@@ -1,6 +1,7 @@
-import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xceed_group/auth/register_as_retailer/model/countries_model.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:xceed_group/auth/register_as_retailer/retailer_controller.dart';
 import 'package:xceed_group/auth/widget/check_terms_condition.dart';
 import 'package:xceed_group/auth/widget/heading_container.dart';
@@ -210,33 +211,23 @@ class RegisterAsRetailerScreen extends StatelessWidget {
                         },
                       ),
                       const SizedBox(height: 10),
-                      CSCPicker(
-                        layout: Layout.vertical,
-                        dropdownDecoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10)),
-                          color: Colors.grey.shade200,
-                        ),
-                        selectedItemStyle: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 15,
-                        ),
-                        dropdownItemStyle: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 17,
-                        ),
-                        dropdownDialogRadius: 5,
-                        searchBarRadius: 5,
-                        flagState: CountryFlag.DISABLE,
-                        onCountryChanged: (value) {
-                          // retailerController.countryValue.value = value;
+                      DropdownSearch(
+                        mode: Mode.DIALOG,
+                        showSearchBox: true,
+                        showSelectedItem: true,
+                        items: retailerController.countriesList
+                            .map(
+                              (item) => DropdownMenuItem<Country>(
+                                value: item,
+                                child: Text(item.name.toString()),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (value) {
+                          retailerController.selectedValue.value =
+                              value.toString();
                         },
-                        onStateChanged: (value) {
-                          // retailerController.stateValue.value = value!;
-                        },
-                        onCityChanged: (value) {
-                          // retailerController.cityValue.value = value!;
-                        },
+
                       ),
                       const SizedBox(height: 10),
                       TextFieldCommon(
@@ -254,7 +245,7 @@ class RegisterAsRetailerScreen extends StatelessWidget {
                         value: retailerController.isCheck.value,
                         onChanged: (value) {
                           retailerController.isCheck.value =
-                          !retailerController.isCheck.value;
+                              !retailerController.isCheck.value;
                         },
                       ),
                       CommonButton(
