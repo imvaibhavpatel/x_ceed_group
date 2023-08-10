@@ -1,7 +1,7 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xceed_group/auth/register_as_retailer/model/countries_model.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:xceed_group/auth/register_as_retailer/retailer_controller.dart';
 import 'package:xceed_group/auth/widget/check_terms_condition.dart';
 import 'package:xceed_group/auth/widget/heading_container.dart';
@@ -211,24 +211,57 @@ class RegisterAsRetailerScreen extends StatelessWidget {
                         },
                       ),
                       const SizedBox(height: 10),
-                      DropdownSearch(
-                        mode: Mode.DIALOG,
-                        showSearchBox: true,
-                        showSelectedItem: true,
+                      DropdownButton2(
+                        isExpanded: true,
+                        isDense: false,
+                        value: retailerController.selectedCountries.value,
+                        hint: const Text("Country"),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(Icons.keyboard_arrow_down_sharp),
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          maxHeight: Get.height * 0.60,
+                          elevation: 0,
+                        ),
+                        //dropdownSearchData: DropdownSearchData(
+                        //   searchInnerWidgetHeight: 30,
+                        //   searchController: retailerController.searchController,
+                        //   searchInnerWidget: Padding(
+                        //     padding: const EdgeInsets.symmetric(
+                        //       horizontal: 15,
+                        //       vertical: 10,
+                        //     ),
+                        //     child: TextFormField(
+                        //       controller: retailerController.searchController,
+                        //     ),
+                        //   ),
+                        //   searchMatchFn: (item, search) {
+                        //     return item.value!.name
+                        //         .toString()
+                        //         .toLowerCase()
+                        //         .contains(search.toLowerCase());
+                        //   },
+                        // ),
+                        onMenuStateChange: (isOpen) {
+                          if (!isOpen) {
+                            retailerController.searchController.clear();
+                          }
+                        },
                         items: retailerController.countriesList
                             .map(
-                              (item) => DropdownMenuItem<Country>(
+                              (Country item) => DropdownMenuItem<Country>(
                                 value: item,
                                 child: Text(item.name.toString()),
                               ),
                             )
                             .toList(),
-                        onChanged: (value) {
-                          retailerController.selectedValue.value =
+                        onChanged: (  value) {
+                          retailerController.selectedCountries.value =
                               value.toString();
+                          print(retailerController.selectedCountries.value.toString());
                         },
-
                       ),
+                      const SizedBox(height: 10),
                       const SizedBox(height: 10),
                       TextFieldCommon(
                         hintText: "Pin code",

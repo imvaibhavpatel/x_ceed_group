@@ -21,6 +21,7 @@ class LogInController extends GetxController {
 
   registerForm() {
     if (category.value == 1) {
+      Get.back();
       Get.to(
         () => RegisterAsConsumerScreen(),
         transition: Transition.rightToLeft,
@@ -29,6 +30,7 @@ class LogInController extends GetxController {
         ),
       );
     } else if (category.value == 2) {
+      Get.back();
       Get.to(
         () => RegisterAsRetailerScreen(),
         transition: Transition.rightToLeft,
@@ -37,6 +39,7 @@ class LogInController extends GetxController {
         ),
       );
     } else {
+      Get.back();
       Get.to(
         () => RegisterAsDistributorScreen(),
         transition: Transition.rightToLeft,
@@ -59,8 +62,10 @@ class LogInController extends GetxController {
         },
       );
       if (response.statusCode == 200) {
-        box.write("token", jsonDecode(response.body)["response"]["result"]["token"]);
-        box.write("userId", jsonDecode(response.body)["response"]["result"]["user_id"]);
+        box.write(
+            "token", jsonDecode(response.body)["response"]["result"]["token"]);
+        box.write("userId",
+            jsonDecode(response.body)["response"]["result"]["user_id"]);
       } else {
         debugPrint("some error");
       }
