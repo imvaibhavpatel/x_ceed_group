@@ -6,7 +6,7 @@ import 'package:xceed_group/auth/widget/heading_container.dart';
 import 'package:xceed_group/utils/common_button.dart';
 import 'package:xceed_group/auth/log_in_screen/widget/dialog_container.dart';
 import 'package:xceed_group/utils/app_color.dart';
-import 'package:xceed_group/utils/comman_text_field.dart';
+import 'package:xceed_group/auth/widget/comman_text_field.dart';
 
 class LogInScreen extends StatelessWidget {
   final LogInController logInController = Get.put(LogInController());
@@ -62,6 +62,7 @@ class LogInScreen extends StatelessWidget {
                         onPressed: () {
                           if (logInController.formKey.currentState!
                               .validate()) {
+                            FocusScope.of(context).unfocus();
                             logInController.logIn();
                           }
                         },

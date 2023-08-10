@@ -1,12 +1,17 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xceed_group/auth/register_as_retailer/model/city_model.dart';
 import 'package:xceed_group/auth/register_as_retailer/model/countries_model.dart';
+import 'package:xceed_group/auth/register_as_retailer/model/state_model.dart';
 import 'package:xceed_group/auth/register_as_retailer/retailer_controller.dart';
 import 'package:xceed_group/auth/widget/check_terms_condition.dart';
+import 'package:xceed_group/auth/widget/city_drop_down.dart';
+import 'package:xceed_group/auth/widget/country_drop_down.dart';
+import 'package:xceed_group/auth/widget/doc_image_container.dart';
 import 'package:xceed_group/auth/widget/heading_container.dart';
+import 'package:xceed_group/auth/widget/state_drop_down.dart';
 import 'package:xceed_group/utils/common_button.dart';
-import 'package:xceed_group/utils/comman_text_field.dart';
+import 'package:xceed_group/auth/widget/comman_text_field.dart';
 
 class RegisterAsRetailerScreen extends StatelessWidget {
   final RetailerController retailerController = Get.put(RetailerController());
@@ -69,67 +74,34 @@ class RegisterAsRetailerScreen extends StatelessWidget {
                             retailerController.registerRetEmailController,
                       ),
                       const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: TextFieldCommon(
-                              hintText: "Attach Adhaar card Doc*",
-                              controller:
-                                  retailerController.adhaarImageController,
-                              onTap: () => retailerController.getAdhaarDoc(),
-                              suffixIcon: const Icon(
-                                Icons.camera_alt_outlined,
-                                color: Colors.grey,
-                              ),
-                              validation: (adhaarImage) {
-                                if (retailerController
-                                    .adhaarImageController.text.isEmpty) {
-                                  return "Select adhaar card image";
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          Icon(
-                            Icons.check_circle,
-                            color: retailerController
-                                    .adhaarImageController.text.isNotEmpty
+                      DocImageContainer(
+                        text: retailerController.adhaarDocPath.value.isNotEmpty
+                            ? retailerController.adhaarDocPath.value
+                            : "Attach Adhaar card Doc*",
+                        textColor:
+                            retailerController.adhaarDocPath.value.isNotEmpty
+                                ? Colors.black
+                                : Colors.grey.shade700,
+                        onTap: () => retailerController.getAdhaarDoc(),
+                        checkColor:
+                            retailerController.adhaarDocPath.value.isNotEmpty
                                 ? Colors.green
                                 : Colors.grey.shade300,
-                          )
-                        ],
                       ),
                       const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: TextFieldCommon(
-                              hintText: "Attach Pan card Doc*",
-                              controller: retailerController.panImageController,
-                              onTap: () => retailerController.getPanCardDoc(),
-                              suffixIcon: const Icon(
-                                Icons.camera_alt_outlined,
-                                color: Colors.grey,
-                              ),
-                              validation: (panImage) {
-                                if (retailerController
-                                    .panImageController.text.isEmpty) {
-                                  return "Select adhaar card image";
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          Icon(
-                            Icons.check_circle,
-                            color: retailerController
-                                    .panImageController.text.isNotEmpty
+                      DocImageContainer(
+                        text: retailerController.panDocPath.value.isNotEmpty
+                            ? retailerController.panDocPath.value
+                            : "Attach Pan card Doc*",
+                        textColor:
+                        retailerController.panDocPath.value.isNotEmpty
+                            ? Colors.black
+                            : Colors.grey.shade700,
+                        onTap: () => retailerController.getPanCardDoc(),
+                        checkColor:
+                            retailerController.panDocPath.value.isNotEmpty
                                 ? Colors.green
                                 : Colors.grey.shade300,
-                          )
-                        ],
                       ),
                       const SizedBox(height: 10),
                       const Align(
@@ -155,35 +127,19 @@ class RegisterAsRetailerScreen extends StatelessWidget {
                         },
                       ),
                       const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: TextFieldCommon(
-                              hintText: "Attach GST Doc*",
-                              controller: retailerController.gstImageController,
-                              onTap: () => retailerController.getGstDoc(),
-                              suffixIcon: const Icon(
-                                Icons.camera_alt_outlined,
-                                color: Colors.grey,
-                              ),
-                              validation: (gstImage) {
-                                if (retailerController
-                                    .gstImageController.text.isEmpty) {
-                                  return "Select GST doc image";
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          Icon(
-                            Icons.check_circle,
-                            color: retailerController
-                                    .gstImageController.text.isNotEmpty
+                      DocImageContainer(
+                        text: retailerController.gstDocPath.value.isNotEmpty
+                            ? retailerController.gstDocPath.value
+                            : "Attach GST Doc*",
+                        textColor:
+                        retailerController.gstDocPath.value.isNotEmpty
+                            ? Colors.black
+                            : Colors.grey.shade600,
+                        onTap: () => retailerController.getGstDoc(),
+                        checkColor:
+                            retailerController.gstDocPath.value.isNotEmpty
                                 ? Colors.green
                                 : Colors.grey.shade300,
-                          )
-                        ],
                       ),
                       const SizedBox(height: 10),
                       const Align(
@@ -211,57 +167,41 @@ class RegisterAsRetailerScreen extends StatelessWidget {
                         },
                       ),
                       const SizedBox(height: 10),
-                      DropdownButton2(
-                        isExpanded: true,
-                        isDense: false,
-                        value: retailerController.selectedCountries.value,
-                        hint: const Text("Country"),
-                        iconStyleData: const IconStyleData(
-                          icon: Icon(Icons.keyboard_arrow_down_sharp),
-                        ),
-                        dropdownStyleData: DropdownStyleData(
-                          maxHeight: Get.height * 0.60,
-                          elevation: 0,
-                        ),
-                        //dropdownSearchData: DropdownSearchData(
-                        //   searchInnerWidgetHeight: 30,
-                        //   searchController: retailerController.searchController,
-                        //   searchInnerWidget: Padding(
-                        //     padding: const EdgeInsets.symmetric(
-                        //       horizontal: 15,
-                        //       vertical: 10,
-                        //     ),
-                        //     child: TextFormField(
-                        //       controller: retailerController.searchController,
-                        //     ),
-                        //   ),
-                        //   searchMatchFn: (item, search) {
-                        //     return item.value!.name
-                        //         .toString()
-                        //         .toLowerCase()
-                        //         .contains(search.toLowerCase());
-                        //   },
-                        // ),
-                        onMenuStateChange: (isOpen) {
-                          if (!isOpen) {
-                            retailerController.searchController.clear();
-                          }
-                        },
-                        items: retailerController.countriesList
-                            .map(
-                              (Country item) => DropdownMenuItem<Country>(
-                                value: item,
-                                child: Text(item.name.toString()),
-                              ),
-                            )
-                            .toList(),
-                        onChanged: (  value) {
+                      CountryDropDown(
+                        items: retailerController.countriesList,
+                        itemAsString: (Country country) => country.name,
+                        onChanged: (Country? country) async {
                           retailerController.selectedCountries.value =
-                              value.toString();
-                          print(retailerController.selectedCountries.value.toString());
+                              country!.name.toString();
+                          retailerController.countryID.value = country.id;
+                          retailerController.stateList.clear();
+                          retailerController.statePage.value = 1;
+                          await retailerController.getState(
+                              retailerController.countryID.value.toString());
                         },
                       ),
                       const SizedBox(height: 10),
+                      StateDropDown(
+                        items: retailerController.stateList,
+                        itemAsString: (StateName state) => state.name,
+                        onChanged: (StateName? state) async {
+                          retailerController.selectedState.value =
+                              state!.name.toString();
+                          retailerController.stateID.value = state.id;
+                          retailerController.cityList.clear();
+                          retailerController.cityPage.value = 1;
+                          await retailerController.getCity(
+                              retailerController.stateID.value.toString());
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      CityDropDown(
+                          items: retailerController.cityList,
+                          itemAsString: (City city) => city.name,
+                          onChanged: (City? city) async {
+                            retailerController.selectedCity.value =
+                                city!.name.toString();
+                          }),
                       const SizedBox(height: 10),
                       TextFieldCommon(
                         hintText: "Pin code",
@@ -285,7 +225,9 @@ class RegisterAsRetailerScreen extends StatelessWidget {
                         text: "Register",
                         onPressed: () {
                           if (retailerController.retailerRegKey.currentState!
-                              .validate()) {}
+                              .validate()) {
+                            FocusScope.of(context).unfocus();
+                          }
                         },
                       ),
                       const SizedBox(height: 70),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xceed_group/auth/forgot_password/forgot_password_controller.dart';
 import 'package:xceed_group/auth/widget/heading_container.dart';
-import 'package:xceed_group/utils/comman_text_field.dart';
+import 'package:xceed_group/auth/widget/comman_text_field.dart';
 import 'package:xceed_group/utils/common_button.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {

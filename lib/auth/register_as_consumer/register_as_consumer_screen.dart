@@ -4,7 +4,7 @@ import 'package:xceed_group/auth/widget/check_terms_condition.dart';
 import 'package:xceed_group/auth/widget/heading_container.dart';
 import 'package:xceed_group/utils/common_button.dart';
 import 'package:xceed_group/auth/register_as_consumer/consumer_controller.dart';
-import 'package:xceed_group/utils/comman_text_field.dart';
+import 'package:xceed_group/auth/widget/comman_text_field.dart';
 
 class RegisterAsConsumerScreen extends StatelessWidget {
   final ConsumerController consumerController = Get.put(ConsumerController());
@@ -86,7 +86,10 @@ class RegisterAsConsumerScreen extends StatelessWidget {
                       text: "Register",
                       onPressed: () {
                         if (consumerController.consumerRegKey.currentState!
-                            .validate()) {}
+                            .validate()) {
+                          FocusScope.of(context).unfocus();
+
+                        }
                       },
                     ),
                   ],
