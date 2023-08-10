@@ -1,4 +1,4 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xceed_group/auth/register_as_retailer/model/countries_model.dart';
@@ -211,57 +211,91 @@ class RegisterAsRetailerScreen extends StatelessWidget {
                         },
                       ),
                       const SizedBox(height: 10),
-                      DropdownButton2(
-                        isExpanded: true,
-                        isDense: false,
-                        value: retailerController.selectedCountries.value,
-                        hint: const Text("Country"),
-                        iconStyleData: const IconStyleData(
-                          icon: Icon(Icons.keyboard_arrow_down_sharp),
-                        ),
-                        dropdownStyleData: DropdownStyleData(
-                          maxHeight: Get.height * 0.60,
-                          elevation: 0,
-                        ),
-                        //dropdownSearchData: DropdownSearchData(
-                        //   searchInnerWidgetHeight: 30,
-                        //   searchController: retailerController.searchController,
-                        //   searchInnerWidget: Padding(
-                        //     padding: const EdgeInsets.symmetric(
-                        //       horizontal: 15,
-                        //       vertical: 10,
-                        //     ),
-                        //     child: TextFormField(
-                        //       controller: retailerController.searchController,
-                        //     ),
-                        //   ),
-                        //   searchMatchFn: (item, search) {
-                        //     return item.value!.name
-                        //         .toString()
-                        //         .toLowerCase()
-                        //         .contains(search.toLowerCase());
-                        //   },
-                        // ),
-                        onMenuStateChange: (isOpen) {
-                          if (!isOpen) {
-                            retailerController.searchController.clear();
-                          }
-                        },
-                        items: retailerController.countriesList
-                            .map(
-                              (Country item) => DropdownMenuItem<Country>(
-                                value: item,
-                                child: Text(item.name.toString()),
+                      // DropdownButton2(
+                      //   isExpanded: true,
+                      //   isDense: false,
+                      //   value: retailerController.selectedCountries.value,
+                      //   hint: const Text("Country"),
+                      //   iconStyleData: const IconStyleData(
+                      //     icon: Icon(Icons.keyboard_arrow_down_sharp),
+                      //   ),
+                      //   dropdownStyleData: DropdownStyleData(
+                      //     maxHeight: Get.height * 0.60,
+                      //     elevation: 0,
+                      //   ),
+                      //   //dropdownSearchData: DropdownSearchData(
+                      //   //   searchInnerWidgetHeight: 30,
+                      //   //   searchController: retailerController.searchController,
+                      //   //   searchInnerWidget: Padding(
+                      //   //     padding: const EdgeInsets.symmetric(
+                      //   //       horizontal: 15,
+                      //   //       vertical: 10,
+                      //   //     ),
+                      //   //     child: TextFormField(
+                      //   //       controller: retailerController.searchController,
+                      //   //     ),
+                      //   //   ),
+                      //   //   searchMatchFn: (item, search) {
+                      //   //     return item.value!.name
+                      //   //         .toString()
+                      //   //         .toLowerCase()
+                      //   //         .contains(search.toLowerCase());
+                      //   //   },
+                      //   // ),
+                      //   onMenuStateChange: (isOpen) {
+                      //     if (!isOpen) {
+                      //       retailerController.searchController.clear();
+                      //     }
+                      //   },
+                      //   items: retailerController.countriesList
+                      //       .map(
+                      //         (Country item) => DropdownMenuItem<Country>(
+                      //           value: item,
+                      //           child: Text(item.name.toString()),
+                      //         ),
+                      //       )
+                      //       .toList(),
+                      //   onChanged: (value) {
+                      //     retailerController.selectedCountries.value =
+                      //         value.toString();
+                      //     print(retailerController.selectedCountries.value
+                      //         .toString());
+                      //   },
+                      // ),
+                      const SizedBox(height: 10),
+                      DropdownSearch<Country>(
+                        dropdownButtonProps: DropdownButtonProps(
+                            padding: EdgeInsets.zero,
+                            icon: Icon(
+                              Icons.keyboard_arrow_down_sharp,
+                              color: Colors.grey,
+                            )),
+                        dropdownDecoratorProps: DropDownDecoratorProps(
+                          dropdownSearchDecoration: InputDecoration(
+                              filled: true,
+                              hintText: "Country",
+                              fillColor: Colors.grey.shade200,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                            )
-                            .toList(),
-                        onChanged: (  value) {
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide.none)),
+                        ),
+                        items: retailerController.countriesList,
+                        popupProps: const PopupProps.dialog(
+                          showSearchBox: true,
+                          showSelectedItems: false,
+                        ),
+                        itemAsString: (Country country) => country.name,
+                        onChanged: (Country? country) {
                           retailerController.selectedCountries.value =
-                              value.toString();
-                          print(retailerController.selectedCountries.value.toString());
+                              country!.name.toString();
+                          retailerController.countryID.value = country.id;
+                          print(retailerController.countryID.value);
+                          print(country.name.toString());
                         },
                       ),
-                      const SizedBox(height: 10),
                       const SizedBox(height: 10),
                       TextFieldCommon(
                         hintText: "Pin code",
