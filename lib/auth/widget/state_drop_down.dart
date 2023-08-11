@@ -1,6 +1,6 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:xceed_group/auth/register_as_retailer/model/state_model.dart';
+import 'package:xceed_group/auth/model/state_model.dart';
 
 class StateDropDown extends StatelessWidget {
   final List<StateName> items;
@@ -24,6 +24,7 @@ class StateDropDown extends StatelessWidget {
           baseStyle: const TextStyle(fontSize: 16),
           dropdownSearchDecoration: InputDecoration(
             filled: true,
+            isDense: true,
             hintText: "State",
             fillColor: Colors.grey.shade200,
             enabledBorder: OutlineInputBorder(
@@ -36,6 +37,9 @@ class StateDropDown extends StatelessWidget {
         ),
         items: items,
         popupProps: const PopupProps.dialog(
+          searchFieldProps: TextFieldProps(
+            decoration: InputDecoration(border: UnderlineInputBorder()),
+          ),
           showSearchBox: true,
           showSelectedItems: false,
         ),

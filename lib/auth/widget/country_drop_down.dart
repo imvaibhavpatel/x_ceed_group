@@ -1,6 +1,6 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:xceed_group/auth/register_as_retailer/model/countries_model.dart';
+import 'package:xceed_group/auth/model/countries_model.dart';
 
 class CountryDropDown extends StatelessWidget {
   final List<Country> items;
@@ -13,8 +13,7 @@ class CountryDropDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownSearch<Country>(
-      dropdownButtonProps:  const DropdownButtonProps(
-        padding: EdgeInsets.zero,
+      dropdownButtonProps: const DropdownButtonProps(
         icon: Icon(
           Icons.keyboard_arrow_down_sharp,
           color: Colors.grey,
@@ -23,6 +22,7 @@ class CountryDropDown extends StatelessWidget {
       dropdownDecoratorProps: DropDownDecoratorProps(
         baseStyle: const TextStyle(fontSize: 16),
         dropdownSearchDecoration: InputDecoration(
+          isDense: true,
           filled: true,
           hintText: "Country",
           fillColor: Colors.grey.shade200,
@@ -36,6 +36,11 @@ class CountryDropDown extends StatelessWidget {
         ),
       ),
       popupProps: const PopupProps.dialog(
+        searchFieldProps: TextFieldProps(
+          decoration: InputDecoration(
+            border: UnderlineInputBorder(),
+          ),
+        ),
         showSearchBox: true,
         showSelectedItems: false,
       ),

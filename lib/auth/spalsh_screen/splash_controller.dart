@@ -1,9 +1,8 @@
 import 'dart:async';
-
 import 'package:get/get.dart';
 import 'package:xceed_group/auth/on_boarading_screen/on_boarding_screen.dart';
 
-class SplashControlelr extends GetxController{
+class SplashController extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
@@ -11,8 +10,8 @@ class SplashControlelr extends GetxController{
 
     Timer(
       const Duration(seconds: 4),
-          () => Get.to(
-            () => OnBoardingScreen(),
+      () => Get.to(
+        () => OnBoardingScreen(),
       ),
     );
   }

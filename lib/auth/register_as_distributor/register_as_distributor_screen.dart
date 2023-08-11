@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xceed_group/auth/model/city_model.dart';
+import 'package:xceed_group/auth/model/countries_model.dart';
+import 'package:xceed_group/auth/model/state_model.dart';
 import 'package:xceed_group/auth/register_as_distributor/distributor_controller.dart';
-import 'package:xceed_group/auth/register_as_retailer/model/city_model.dart';
-import 'package:xceed_group/auth/register_as_retailer/model/countries_model.dart';
-import 'package:xceed_group/auth/register_as_retailer/model/state_model.dart';
 import 'package:xceed_group/auth/widget/check_terms_condition.dart';
 import 'package:xceed_group/auth/widget/city_drop_down.dart';
 import 'package:xceed_group/auth/widget/country_drop_down.dart';
@@ -12,6 +12,7 @@ import 'package:xceed_group/auth/widget/heading_container.dart';
 import 'package:xceed_group/auth/widget/comman_text_field.dart';
 import 'package:xceed_group/auth/widget/state_drop_down.dart';
 import 'package:xceed_group/utils/common_button.dart';
+
 
 class RegisterAsDistributorScreen extends StatelessWidget {
   final DistributorController distributorController =

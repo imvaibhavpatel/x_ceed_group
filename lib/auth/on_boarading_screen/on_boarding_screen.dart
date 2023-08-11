@@ -56,7 +56,13 @@ class OnBoardingScreen extends StatelessWidget {
             onBoardingController.currentPage.value + 1 ==
                     onBoardingController.onBoardingData.length
                 ? GestureDetector(
-                    onTap: () => Get.to(() => LogInScreen()),
+                    onTap: () => Get.to(
+                      () => LogInScreen(),
+                      transition: Transition.rightToLeft,
+                      duration: const Duration(
+                        milliseconds: 400,
+                      ),
+                    ),
                     child: Container(
                       height: 42,
                       width: 190,
@@ -125,8 +131,9 @@ class OnBoardingScreen extends StatelessWidget {
                           ),
                           onPressed: () {
                             onBoardingController.pageController.nextPage(
-                                duration: const Duration(milliseconds: 200),
-                                curve: Curves.bounceInOut);
+                              duration: const Duration(seconds: 1),
+                              curve: Curves.easeIn,
+                            );
                           },
                         ),
                       ],

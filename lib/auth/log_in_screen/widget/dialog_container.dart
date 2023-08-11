@@ -76,8 +76,10 @@ class DialogContainer extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          const Text("Consumer",
-                              style: TextStyle(fontSize: 13)),
+                          const Text(
+                            "Consumer",
+                            style: TextStyle(fontSize: 13),
+                          ),
                         ],
                       ),
                     ),
@@ -136,9 +138,10 @@ class DialogContainer extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                            color: logInController.category.value == 3
-                                ? AppColor.appColor
-                                : Colors.black),
+                          color: logInController.category.value == 3
+                              ? AppColor.appColor
+                              : Colors.black,
+                        ),
                       ),
                       child: Column(
                         children: [
@@ -171,7 +174,6 @@ class DialogContainer extends StatelessWidget {
                       backgroundColor: AppColor.appColor),
                   onPressed: () {
                     logInController.registerForm();
-
                   },
                   child: const Text("Proceed"),
                 ),

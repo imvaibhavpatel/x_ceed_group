@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
-import 'package:xceed_group/auth/register_as_retailer/model/city_model.dart';
-import 'package:xceed_group/auth/register_as_retailer/model/state_model.dart';
+import 'package:xceed_group/auth/model/city_model.dart';
+import 'package:xceed_group/auth/model/countries_model.dart';
+import 'package:xceed_group/auth/model/state_model.dart';
 import 'package:xceed_group/utils/base_url.dart';
 
-import 'model/countries_model.dart';
 
 class RetailerController extends GetxController {
   final retailerRegKey = GlobalKey<FormState>();
@@ -26,13 +26,16 @@ class RetailerController extends GetxController {
   RxInt statePage = 1.obs;
   RxInt countryID = 0.obs;
   RxInt stateID = 0.obs;
+
   RxString selectedCountries = "".obs;
   RxString selectedState = "".obs;
   RxString selectedCity = "".obs;
   RxString adhaarDocPath = "".obs;
   RxString panDocPath = "".obs;
   RxString gstDocPath = "".obs;
+
   RxBool isCheck = false.obs;
+
   RxList<Country> countriesList = <Country>[].obs;
   RxList<StateName> stateList = <StateName>[].obs;
   RxList<City> cityList = <City>[].obs;

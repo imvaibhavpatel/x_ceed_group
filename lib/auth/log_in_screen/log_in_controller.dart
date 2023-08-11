@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -11,9 +10,9 @@ import 'package:xceed_group/utils/base_url.dart';
 
 class LogInController extends GetxController {
   final formKey = GlobalKey<FormState>();
-
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
   final box = GetStorage();
 
   RxBool isEyes = false.obs;
@@ -62,10 +61,10 @@ class LogInController extends GetxController {
         },
       );
       if (response.statusCode == 200) {
-        box.write(
-            "token", jsonDecode(response.body)["response"]["result"]["token"]);
+        box.write("token",
+            jsonDecode(response.body)["response"]["result"]["token"] ?? "");
         box.write("userId",
-            jsonDecode(response.body)["response"]["result"]["user_id"]);
+            jsonDecode(response.body)["response"]["result"]["user_id"] ?? "");
       } else {
         debugPrint("some error");
       }
