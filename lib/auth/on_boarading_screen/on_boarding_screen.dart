@@ -72,12 +72,13 @@ class OnBoardingScreen extends StatelessWidget {
                         border: Border.all(color: AppColor.appColor),
                       ),
                       child: Center(
-                          child: Text(
-                        "Get Started",
-                        style: TextStyle(
-                          color: AppColor.appColor,
+                        child: Text(
+                          "Get Started",
+                          style: TextStyle(
+                            color: AppColor.appColor,
+                          ),
                         ),
-                      )),
+                      ),
                     ),
                   )
                 : Padding(
@@ -131,7 +132,7 @@ class OnBoardingScreen extends StatelessWidget {
                           ),
                           onPressed: () {
                             onBoardingController.pageController.nextPage(
-                              duration: const Duration(seconds: 1),
+                              duration: const Duration(milliseconds: 350),
                               curve: Curves.easeIn,
                             );
                           },

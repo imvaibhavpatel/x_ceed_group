@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:xceed_group/auth/register_as_consumer/register_as_consumer_screen.dart';
 import 'package:xceed_group/auth/register_as_distributor/register_as_distributor_screen.dart';
 import 'package:xceed_group/auth/register_as_retailer/register_as_retailer_screen.dart';
+import 'package:xceed_group/screen/home/home_screen.dart';
 import 'package:xceed_group/utils/base_url.dart';
 
 class LogInController extends GetxController {
@@ -65,6 +66,7 @@ class LogInController extends GetxController {
             jsonDecode(response.body)["response"]["result"]["token"] ?? "");
         box.write("userId",
             jsonDecode(response.body)["response"]["result"]["user_id"] ?? "");
+        Get.to(() => HomeScreen());
       } else {
         debugPrint("some error");
       }

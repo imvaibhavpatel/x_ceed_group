@@ -70,7 +70,7 @@ class DialogContainer extends StatelessWidget {
                             radius: 30,
                             backgroundColor: AppColor.appColor,
                             child: Image.asset(
-                              RegisterCategoryIcons.customers,
+                              AppIcons.customers,
                               height: 80,
                               width: 40,
                             ),
@@ -109,7 +109,7 @@ class DialogContainer extends StatelessWidget {
                             radius: 30,
                             backgroundColor: AppColor.appColor,
                             child: Image.asset(
-                              RegisterCategoryIcons.retailer,
+                              AppIcons.retailer,
                               height: 80,
                               width: 40,
                             ),
@@ -149,7 +149,7 @@ class DialogContainer extends StatelessWidget {
                             radius: 30,
                             backgroundColor: AppColor.appColor,
                             child: Image.asset(
-                              RegisterCategoryIcons.distributor,
+                              AppIcons.distributor,
                               height: 80,
                               width: 40,
                             ),
