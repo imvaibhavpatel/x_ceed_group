@@ -11,8 +11,6 @@ class HomeController extends GetxController {
   var box = GetStorage();
 
   RxInt currentPage = 0.obs;
-  RxInt currentBottomPage = 1.obs;
-
   RxBool isLoading = false.obs;
   RxBool isBannerLoad = false.obs;
 
@@ -28,9 +26,9 @@ class HomeController extends GetxController {
   ));
 
   var dateRange = DateTimeRange(
-    start: DateTime.now(),
-    end: DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day + 6),
+    start: DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day - 30),
+    end: DateTime.now(),
   ).obs;
 
   selectDateRang() async {
@@ -42,7 +40,6 @@ class HomeController extends GetxController {
     );
     if (picked != null && picked != dateRange.value) {
       dateRange.value = picked;
-      getBanner();
       getHomeDetails(
           startDate: dateRange.value.start.toString(),
           endDate: dateRange.value.end.toString());
@@ -76,8 +73,7 @@ class HomeController extends GetxController {
   }
 
   getBanner() async {
-     isBannerLoad.value = true;
-
+    isLoading.value = true;
     try {
       var userId = box.read("userId");
       var token = box.read("token");
@@ -98,8 +94,8 @@ class HomeController extends GetxController {
       }
     } catch (e) {
       throw Exception(e..toString());
-    }finally{
-      isBannerLoad.value= false;
+    } finally {
+      isLoading.value = false;
     }
   }
 

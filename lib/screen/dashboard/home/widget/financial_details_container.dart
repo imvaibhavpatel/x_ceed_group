@@ -9,9 +9,15 @@ class FinancialDetailsContainer extends StatelessWidget {
   final String? subTitle;
   final GestureTapCallback? onTap;
   final Color? color;
+  final String? date;
 
   const FinancialDetailsContainer(
-      {super.key, this.title, this.onTap, this.color, this.subTitle});
+      {super.key,
+      this.title,
+      this.onTap,
+      this.color,
+      this.subTitle,
+      this.date});
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +26,8 @@ class FinancialDetailsContainer extends StatelessWidget {
         onTap: onTap,
         child: Container(
           padding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 15,
+            horizontal: 13,
+            vertical: 10,
           ),
           width: Get.width * 0.50,
           decoration: BoxDecoration(
@@ -35,9 +41,17 @@ class FinancialDetailsContainer extends StatelessWidget {
                 title: title!,
                 subTitle: subTitle,
               ),
-              const SizedBox(height: 10),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  date ?? "",
+                  style: const TextStyle(fontSize: 10, color: Colors.white),
+                ),
+              ),
+              const SizedBox(height: 18),
               SvgPicture.asset(
                 SvgIcons.arrowIcon,
+                // ignore: deprecated_member_use
                 color: Colors.white,
               ),
             ],

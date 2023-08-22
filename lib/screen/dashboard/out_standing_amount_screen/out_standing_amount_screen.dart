@@ -39,6 +39,7 @@ class OutStandingAmountScreen extends StatelessWidget {
                 const Spacer(),
                 SvgPicture.asset(
                   SvgIcons.shoppingCartIcon,
+                  // ignore: deprecated_member_use
                   color: Colors.black,
                 )
               ],
@@ -46,9 +47,7 @@ class OutStandingAmountScreen extends StatelessWidget {
           ),
           Obx(
             () => outStandingDetailsController.isLoading.value
-                ? const CircularProgressIndicator(
-                    color: Colors.blue,
-                  )
+                ? const CircularProgressIndicator(color: Colors.blue)
                 : Expanded(
                     child: SingleChildScrollView(
                       controller: outStandingDetailsController.scrollController,
@@ -70,7 +69,8 @@ class OutStandingAmountScreen extends StatelessWidget {
                                     const Text(
                                       "Your Outstanding",
                                       style: TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                     Text(
                                       outStandingDetailsController
@@ -86,82 +86,54 @@ class OutStandingAmountScreen extends StatelessWidget {
                                     )
                                   ],
                                 ),
-                                PopupMenuButton(
-                                  position: PopupMenuPosition.under,
-                                  // onSelected: (value) {
-                                  //   outStandingDetailsController
-                                  //       .selectedStatus.value = value;
-                                  // },
-                                  itemBuilder: (context) => [
-                                    PopupMenuItem(
-                                      value: 0,
-                                      onTap: () {
-
-                                        // outStandingDetailsController
-                                        //     .page.value = 0;
-                                        // outStandingDetailsController
-                                        //     .getOutstandingData(
-                                        //         isLoading: true,
-                                        //         selectedStatus:
-                                        //             outStandingDetailsController
-                                        //                 .selectedStatus.value);
-                                      },
-                                      child: Text(
-                                        "Due",
-                                        style: TextStyle(
-                                          color: Colors.indigo.shade900,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    PopupMenuItem(
-                                      value: 1,
-                                      onTap: () {
-                                        // outStandingDetailsController
-                                        //     .page.value = 0;
-                                        // outStandingDetailsController
-                                        //     .getOutstandingData(
-                                        //         isLoading: true,
-                                        //         selectedStatus:
-                                        //             outStandingDetailsController
-                                        //                 .selectedStatus.value);
-                                      },
-                                      child: Text(
-                                        "Non Due",
-                                        style: TextStyle(
-                                          color: Colors.indigo.shade900,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 15,
-                                      vertical: 10,
-                                    ),
+                                SizedBox(
+                                  width: Get.width * 0.40,
+                                  child: DecoratedBox(
                                     decoration: BoxDecoration(
-                                      color: Colors.indigo.withOpacity(0.2),
+                                      color: Colors.indigo.shade100,
                                       borderRadius: BorderRadius.circular(25),
                                     ),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          "Select Status",
-                                          style: TextStyle(
-                                            color:
-                                                Colors.black.withOpacity(0.6),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 20),
-                                        Icon(
-                                          Icons.keyboard_arrow_down_sharp,
-                                          color: Colors.indigo.shade900,
-                                        )
-                                      ],
+                                    child: DropdownButton(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15),
+                                      hint: const Text("Select Status"),
+                                      value: outStandingDetailsController
+                                              .dropDownValue.value.isEmpty
+                                          ? null
+                                          : outStandingDetailsController
+                                              .dropDownValue.value,
+                                      icon: Icon(
+                                        Icons.keyboard_arrow_down,
+                                        color: Colors.indigo.shade900,
+                                      ),
+                                      underline: const SizedBox(),
+                                      items: outStandingDetailsController.status
+                                          .map((items) {
+                                        return DropdownMenuItem(
+                                          value: items,
+                                          child: Text(items.toString()),
+                                        );
+                                      }).toList(),
+                                      onChanged: (value) {
+                                        if (value != null) {
+                                          outStandingDetailsController
+                                              .dropDownValue.value = value;
+                                          outStandingDetailsController
+                                              .page.value = 0;
+                                          outStandingDetailsController
+                                              .outStandingDetailsList
+                                              .clear();
+                                          outStandingDetailsController
+                                              .getOutstandingData(
+                                                  showLoader: true,
+                                                  selectedStatus:
+                                                      outStandingDetailsController
+                                                          .dropDownValue.value);
+                                        }
+                                      },
                                     ),
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -170,20 +142,6 @@ class OutStandingAmountScreen extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Row(
                               children: [
-                                const Icon(
-                                  Icons.square,
-                                  color: Colors.greenAccent,
-                                  size: 15,
-                                ),
-                                const SizedBox(width: 5),
-                                Text(
-                                  "Rs. ${outStandingDetailsController.outStandingStatusData.value.totalOverdueAmount.toString()}",
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                                const Spacer(),
                                 const Icon(
                                   Icons.square,
                                   color: Colors.red,
@@ -196,11 +154,26 @@ class OutStandingAmountScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
                                   ),
+                                ),
+                                const Spacer(),
+                                const Icon(
+                                  Icons.square,
+                                  color: Colors.greenAccent,
+                                  size: 15,
+                                ),
+                                const SizedBox(width: 5),
+                                Text(
+                                  "Rs. ${outStandingDetailsController.outStandingStatusData.value.totalOverdueAmount.toString()}",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
                                 )
                               ],
                             ),
                           ),
                           SfCircularChart(
+                            // tooltipBehavior: TooltipBehavior(),
                             palette: [
                               Colors.red.shade400,
                               Colors.greenAccent.shade400
@@ -253,6 +226,25 @@ class OutStandingAmountScreen extends StatelessWidget {
                                       .outStandingDetailsList[index]
                                       .outstandingAmt
                                       .toString(),
+                                  status: outStandingDetailsController
+                                      .outStandingDetailsList[index]
+                                      .outstandingStatus
+                                      .toString(),
+                                  color: outStandingDetailsController
+                                              .outStandingDetailsList[index]
+                                              .outstandingStatus
+                                              .toString() ==
+                                          "due"
+                                      ? Colors.redAccent.shade100
+                                          .withOpacity(0.3)
+                                      : Colors.grey.shade400,
+                                  textColor: outStandingDetailsController
+                                              .outStandingDetailsList[index]
+                                              .outstandingStatus
+                                              .toString() ==
+                                          "due"
+                                      ? Colors.redAccent
+                                      : Colors.black,
                                 );
                               },
                             ),

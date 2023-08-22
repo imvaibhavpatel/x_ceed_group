@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <g id="Search_Icon" data-name="Search Icon" transform="translate(-250 132)">
+    <g id="search" transform="translate(253 -129)">
+      <circle id="Ellipse_1" data-name="Ellipse 1" cx="8.889" cy="8.889" r="8.889" transform="translate(3 3)" fill="none" stroke="#0008c1" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <line id="Line_4" data-name="Line 4" x1="4.833" y1="4.833" transform="translate(18.167 18.167)" fill="none" stroke="#0008c1" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    </g>
+    <rect id="Rectangle_70" data-name="Rectangle 70" width="32" height="32" transform="translate(250 -132)" fill="none"/>
+  </g>
+</svg>

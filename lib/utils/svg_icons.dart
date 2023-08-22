@@ -6,4 +6,5 @@ class SvgIcons {
   static const String orderIcon = "assets/svg/order.svg";
   static const String profileIcon = "assets/svg/profile.svg";
   static const String shoppingCartIcon = "assets/svg/ic_shopping_cart.svg";
+  static const String searchIcons = "assets/svg/search.svg";
 }

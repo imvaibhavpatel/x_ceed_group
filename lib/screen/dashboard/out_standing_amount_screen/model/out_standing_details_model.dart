@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
-OutstandingDetailsModel outstandingDetailsModelFromJson(String str) => OutstandingDetailsModel.fromJson(json.decode(str));
+OutstandingDetailsModel outstandingDetailsModelFromJson(String str) =>
+    OutstandingDetailsModel.fromJson(json.decode(str));
 
-String outstandingDetailsModelToJson(OutstandingDetailsModel data) => json.encode(data.toJson());
+String outstandingDetailsModelToJson(OutstandingDetailsModel data) =>
+    json.encode(data.toJson());
 
 class OutstandingDetailsModel {
   bool status;
@@ -21,19 +23,45 @@ class OutstandingDetailsModel {
     required this.outstandingsDetails,
   });
 
-  factory OutstandingDetailsModel.fromJson(Map<String, dynamic> json) => OutstandingDetailsModel(
-    status: json["status"],
-    message: json["message"],
-    outstandingStats: OutstandingStats.fromJson(json["outstanding_stats"]),
-    outstandingsDetails: OutstandingsDetails.fromJson(json["outstandings_details"]),
-  );
+  factory OutstandingDetailsModel.fromJson(Map<String, dynamic> json) =>
+      OutstandingDetailsModel(
+        status: json["status"],
+        message: json["message"],
+        outstandingStats: json["outstanding_stats"] != null
+            ? OutstandingStats.fromJson(json["outstanding_stats"])
+            : OutstandingStats(
+                totalOverdueAmount: 0,
+                totalDueOutstandingPercentage: 0.0,
+                totalDueAmount: 0,
+                totalInvoiceAmt: 0,
+                totalOutstandingAmt: 0,
+                accountName: "",
+                totalOverdueOutstandingPercentage: 0.0,
+              ),
+        outstandingsDetails: json["outstandings_details"] != null
+            ? OutstandingsDetails.fromJson(json["outstandings_details"])
+            : OutstandingsDetails(
+                currentPage: 0,
+                firstPageUrl: "",
+                data: [],
+                from: 0,
+                lastPage: 0,
+                lastPageUrl: "",
+                nextPageUrl: "",
+                path: "",
+                perPage: "",
+                prevPageUrl: "",
+                to: 0,
+                total: 0,
+              ),
+      );
 
   Map<String, dynamic> toJson() => {
-    "status": status,
-    "message": message,
-    "outstanding_stats": outstandingStats.toJson(),
-    "outstandings_details": outstandingsDetails.toJson(),
-  };
+        "status": status,
+        "message": message,
+        "outstanding_stats": outstandingStats.toJson(),
+        "outstandings_details": outstandingsDetails.toJson(),
+      };
 }
 
 class OutstandingStats {
@@ -55,25 +83,29 @@ class OutstandingStats {
     required this.totalOverdueOutstandingPercentage,
   });
 
-  factory OutstandingStats.fromJson(Map<String, dynamic> json) => OutstandingStats(
-    accountName: json["account_name"],
-    totalOutstandingAmt: json["total_outstanding_amt"],
-    totalInvoiceAmt: json["total_invoice_amt"],
-    totalDueAmount: json["total_due_amount"],
-    totalOverdueAmount: json["total_overdue_amount"],
-    totalDueOutstandingPercentage: json["total_due_outstanding_percentage"]?.toDouble(),
-    totalOverdueOutstandingPercentage: json["total_overdue_outstanding_percentage"]?.toDouble(),
-  );
+  factory OutstandingStats.fromJson(Map<String, dynamic> json) =>
+      OutstandingStats(
+        accountName: json["account_name"],
+        totalOutstandingAmt: json["total_outstanding_amt"],
+        totalInvoiceAmt: json["total_invoice_amt"],
+        totalDueAmount: json["total_due_amount"],
+        totalOverdueAmount: json["total_overdue_amount"],
+        totalDueOutstandingPercentage:
+            json["total_due_outstanding_percentage"]?.toDouble(),
+        totalOverdueOutstandingPercentage:
+            json["total_overdue_outstanding_percentage"]?.toDouble(),
+      );
 
   Map<String, dynamic> toJson() => {
-    "account_name": accountName,
-    "total_outstanding_amt": totalOutstandingAmt,
-    "total_invoice_amt": totalInvoiceAmt,
-    "total_due_amount": totalDueAmount,
-    "total_overdue_amount": totalOverdueAmount,
-    "total_due_outstanding_percentage": totalDueOutstandingPercentage,
-    "total_overdue_outstanding_percentage": totalOverdueOutstandingPercentage,
-  };
+        "account_name": accountName,
+        "total_outstanding_amt": totalOutstandingAmt,
+        "total_invoice_amt": totalInvoiceAmt,
+        "total_due_amount": totalDueAmount,
+        "total_overdue_amount": totalOverdueAmount,
+        "total_due_outstanding_percentage": totalDueOutstandingPercentage,
+        "total_overdue_outstanding_percentage":
+            totalOverdueOutstandingPercentage,
+      };
 }
 
 class OutstandingsDetails {
@@ -105,35 +137,36 @@ class OutstandingsDetails {
     required this.total,
   });
 
-  factory OutstandingsDetails.fromJson(Map<String, dynamic> json) => OutstandingsDetails(
-    currentPage: json["current_page"],
-    data:  List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-    firstPageUrl: json["first_page_url"],
-    from: json["from"],
-    lastPage: json["last_page"],
-    lastPageUrl: json["last_page_url"],
-    nextPageUrl: json["next_page_url"],
-    path: json["path"],
-    perPage: json["per_page"],
-    prevPageUrl: json["prev_page_url"],
-    to: json["to"],
-    total: json["total"],
-  );
+  factory OutstandingsDetails.fromJson(Map<String, dynamic> json) =>
+      OutstandingsDetails(
+        currentPage: json["current_page"],
+        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        firstPageUrl: json["first_page_url"],
+        from: json["from"] ?? "",
+        lastPage: json["last_page"],
+        lastPageUrl: json["last_page_url"],
+        nextPageUrl: json["next_page_url"] ?? "",
+        path: json["path"],
+        perPage: json["per_page"],
+        prevPageUrl: json["prev_page_url"],
+        to: json["to"],
+        total: json["total"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "current_page": currentPage,
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
-    "first_page_url": firstPageUrl,
-    "from": from,
-    "last_page": lastPage,
-    "last_page_url": lastPageUrl,
-    "next_page_url": nextPageUrl,
-    "path": path,
-    "per_page": perPage,
-    "prev_page_url": prevPageUrl,
-    "to": to,
-    "total": total,
-  };
+        "current_page": currentPage,
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "first_page_url": firstPageUrl,
+        "from": from,
+        "last_page": lastPage,
+        "last_page_url": lastPageUrl,
+        "next_page_url": nextPageUrl,
+        "path": path,
+        "per_page": perPage,
+        "prev_page_url": prevPageUrl,
+        "to": to,
+        "total": total,
+      };
 }
 
 class Datum {
@@ -174,40 +207,40 @@ class Datum {
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-    id: json["id"],
-    accountId: json["account_id"],
-    accountType: json["account_type"],
-    entryType: json["entry_type"],
-    invoiceId: json["invoice_id"],
-    invoiceAmt: json["invoice_amt"],
-    outstandingAmt: json["outstanding_amt"],
-    compId: json["comp_id"],
-    extSourceId: json["ext_source_id"],
-    externalAccountName: json["external_account_name"] ?? "" ,
-    paymentDueDate: DateTime.parse(json["payment_due_date"]),
-    invoiceDate: DateTime.parse(json["invoice_date"]),
-    outstandingStatus: json["outstanding_status"],
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
-    accountName: json["account_name"],
-  );
+        id: json["id"],
+        accountId: json["account_id"],
+        accountType: json["account_type"],
+        entryType: json["entry_type"],
+        invoiceId: json["invoice_id"],
+        invoiceAmt: json["invoice_amt"],
+        outstandingAmt: json["outstanding_amt"],
+        compId: json["comp_id"],
+        extSourceId: json["ext_source_id"],
+        externalAccountName: json["external_account_name"] ?? "",
+        paymentDueDate: DateTime.parse(json["payment_due_date"]),
+        invoiceDate: DateTime.parse(json["invoice_date"]),
+        outstandingStatus: json["outstanding_status"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+        accountName: json["account_name"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "account_id": accountId,
-    "account_type": accountType,
-    "entry_type": entryType,
-    "invoice_id": invoiceId,
-    "invoice_amt": invoiceAmt,
-    "outstanding_amt": outstandingAmt,
-    "comp_id": compId,
-    "ext_source_id": extSourceId,
-    "external_account_name": externalAccountName,
-    "payment_due_date": paymentDueDate.toIso8601String(),
-    "invoice_date": invoiceDate.toIso8601String(),
-    "outstanding_status": outstandingStatus,
-    "created_at": createdAt.toIso8601String(),
-    "updated_at": updatedAt.toIso8601String(),
-    "account_name": accountName,
-  };
+        "id": id,
+        "account_id": accountId,
+        "account_type": accountType,
+        "entry_type": entryType,
+        "invoice_id": invoiceId,
+        "invoice_amt": invoiceAmt,
+        "outstanding_amt": outstandingAmt,
+        "comp_id": compId,
+        "ext_source_id": extSourceId,
+        "external_account_name": externalAccountName,
+        "payment_due_date": paymentDueDate.toIso8601String(),
+        "invoice_date": invoiceDate.toIso8601String(),
+        "outstanding_status": outstandingStatus,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
+        "account_name": accountName,
+      };
 }

@@ -11,9 +11,11 @@ class OutStandingDetailsController extends GetxController {
   ScrollController scrollController = ScrollController();
 
   RxInt page = 0.obs;
-   RxInt selectedStatus = 0.obs;
+  RxString dropDownValue = "".obs;
   RxBool pageAvailableOrNot = true.obs;
   RxBool isLoading = false.obs;
+
+  List<String> status = ["due", "overdue"];
 
   Rx<OutstandingStats> outStandingStatusData = OutstandingStats(
     accountName: '',
@@ -39,47 +41,53 @@ class OutStandingDetailsController extends GetxController {
     return chatData.obs;
   }
 
-  getOutstandingData({required bool isLoading,  int? selectedStatus }) async {
-    isLoading = true;
-    try {
-      var userId = box.read("userId");
-      var token = box.read("token");
-      final response = await http.get(
-          Uri.parse(
-              "${AppUrl.baseUrl}${AppUrl.outStandingData}&logged_in_userid=$userId&page=${page.value}&limit=15"),
-          headers: {
-            "Authorization": "Bearer $token",
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          });
-      if (response.statusCode == 200) {
-        outStandingStatusData.value =
-            outstandingDetailsModelFromJson(response.body).outstandingStats;
-        outStandingDetailsList.addAll(
-            outstandingDetailsModelFromJson(response.body)
-                .outstandingsDetails
-                .data);
-        chartData = getChartData();
-        if (outstandingDetailsModelFromJson(response.body)
-                .outstandingsDetails
-                .currentPage !=
-            page.value) {
-          page.value = page.value + 1;
-        }
-      } else {
-        debugPrint("some error");
+  getOutstandingData({required bool showLoader, String? selectedStatus}) async {
+    if (showLoader == true) {
+      isLoading.value = true;
+    } else {
+      isLoading.value = false;
+    }
+     try {
+    var userId = box.read("userId");
+    var token = box.read("token");
+    final response = await http.get(
+        Uri.parse(dropDownValue.value.isEmpty
+            ? "${AppUrl.baseUrl}${AppUrl.outStandingData}&logged_in_userid=$userId&page=${page.value}&limit=15"
+            : "${AppUrl.baseUrl}${AppUrl.outStandingData}&logged_in_userid=$userId&page=${page.value}&limit=15&outstanding_status=${dropDownValue.value}"),
+        headers: {
+          "Authorization": "Bearer $token",
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        });
+    if (response.statusCode == 200) {
+      outStandingStatusData.value =
+          outstandingDetailsModelFromJson(response.body).outstandingStats;
+      outStandingDetailsList.addAll(
+          outstandingDetailsModelFromJson(response.body)
+              .outstandingsDetails
+              .data);
+      chartData = getChartData();
+      if (outstandingDetailsModelFromJson(response.body)
+              .outstandingsDetails
+              .currentPage !=
+          page.value) {
+        page.value = page.value + 1;
       }
+    } else {
+      debugPrint("some error");
+    }
     } catch (e) {
       throw Exception(e.toString());
     } finally {
-      isLoading = false;
+      isLoading.value = false;
     }
   }
 
   scrollListener() {
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
-      getOutstandingData(isLoading: false );
+      page.value = page.value + 1;
+      getOutstandingData(showLoader: false);
     }
   }
 
@@ -88,6 +96,6 @@ class OutStandingDetailsController extends GetxController {
     // TODO: implement onReady
     super.onReady();
     scrollController.addListener(scrollListener);
-    getOutstandingData(isLoading: false);
+    getOutstandingData(showLoader: true);
   }
 }

@@ -5,9 +5,12 @@ class ListTextStyle extends StatelessWidget {
   final String? invoiceNo;
   final String? dueDate;
   final String? dueAmt;
+  final String? status;
+  final Color? color;
+  final Color? textColor;
 
   const ListTextStyle(
-      {super.key, this.date, this.invoiceNo, this.dueDate, this.dueAmt});
+      {super.key, this.date, this.invoiceNo, this.dueDate, this.dueAmt, this.status, this.color, this.textColor});
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +63,9 @@ class ListTextStyle extends StatelessWidget {
                         const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: Colors.grey.shade300,
+                      color: color,
                     ),
-                    child: const Text("Due"),
+                    child:  Text(status!,style: TextStyle(color: textColor),),
                   )
                 ],
               )
