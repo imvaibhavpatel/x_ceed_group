@@ -36,7 +36,6 @@ class InvoiceDetailsScreen extends StatelessWidget {
                 const Spacer(),
                 SvgPicture.asset(
                   SvgIcons.shoppingCartIcon,
-                  // ignore: deprecated_member_use
                   color: Colors.black,
                 )
               ],
