@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:xceed_group/main.dart';
 import 'package:xceed_group/screen/dashboard/home/model/banner_details_model.dart';
 import 'package:xceed_group/screen/dashboard/home/model/home_details_model.dart';
 import 'package:xceed_group/utils/base_url.dart';
@@ -89,6 +90,8 @@ class HomeController extends GetxController {
         bannerData.value = bannerDetailsModelFromJson(response.body)
             .bannerDetails
             .banner150X150;
+        print(token);
+        print(baseController?.token.value);
       } else {
         debugPrint("some error");
       }

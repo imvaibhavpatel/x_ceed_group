@@ -3,4 +3,5 @@ class AppIcons{
   static const String distributor = "assets/icons/distributor.png";
   static const String retailer = "assets/icons/retailer.png";
   static const String invoice = "assets/icons/invoice.png";
+  static const String filter = "assets/icons/filter.png";
 }

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:xceed_group/main.dart';
 import 'package:xceed_group/screen/auth/register_as_consumer/register_as_consumer_screen.dart';
 import 'package:xceed_group/screen/auth/register_as_distributor/register_as_distributor_screen.dart';
 import 'package:xceed_group/screen/auth/register_as_retailer/register_as_retailer_screen.dart';
@@ -66,6 +67,7 @@ class LogInController extends GetxController {
             jsonDecode(response.body)["response"]["result"]["token"] ?? "");
         box.write("userId",
             jsonDecode(response.body)["response"]["result"]["user_id"] ?? "");
+        baseController?.getData();
         Get.to(() => BottomBarScreen());
       } else {
         debugPrint("some error");

@@ -86,18 +86,21 @@ class HomeScreen extends StatelessWidget {
                                   ),
                                   itemCount: homeController.bannerData.length,
                                   itemBuilder: (context, index, realIndex) {
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 15,
-                                        vertical: 20,
-                                      ),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(20),
-                                        child: Image.network(
-                                          homeController
-                                              .bannerData[index].uploadPath,
-                                          width: Get.width,
-                                          fit: BoxFit.cover,
+                                    return Obx(
+                                      () => Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 15,
+                                          vertical: 20,
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          child: Image.network(
+                                            homeController
+                                                .bannerData[index].uploadPath,
+                                            width: Get.width,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
                                     );
@@ -346,7 +349,6 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-
     );
   }
 }

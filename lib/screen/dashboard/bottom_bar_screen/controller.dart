@@ -8,11 +8,11 @@ import 'package:xceed_group/screen/dashboard/profile_screen/profile_screen.dart'
 class BottomBarController extends GetxController {
   RxInt currentBottomPage = 0.obs;
 
-  RxList<dynamic> pages = [
+  List<dynamic> pages = [
     HomeScreen(),
     ProductScreen(),
     OrderScreen(),
     InvoiceScreen(),
     ProfileScreen(),
-  ].obs;
+  ];
 }
