@@ -1,10 +1,9 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:xceed_group/screen/dashboard/drawer/drawer_screen.dart';
 import 'package:xceed_group/screen/dashboard/home/home_controller.dart';
 import 'package:xceed_group/screen/dashboard/home/widget/container_text.dart';
 import 'package:xceed_group/screen/dashboard/home/widget/financial_details_container.dart';
@@ -20,42 +19,41 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Drawer(),
+      key: homeController.scaffoldKey,
+      appBar: AppBar(
+        backgroundColor: Colors.white.withOpacity(0.2),
+        elevation: 0,
+        leading: GestureDetector(
+          onTap: () => homeController.scaffoldKey.currentState?.openDrawer(),
+          child: const Icon(
+            Icons.menu,
+            color: Colors.black,
+          ),
+        ),
+        title: const Text(
+          "XCUT UNITE",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 19,
+            color: Colors.black,
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: SvgPicture.asset(
+              SvgIcons.shoppingCartIcon,
+              // ignore: deprecated_member_use
+              color: Colors.black,
+            ),
+          )
+        ],
+      ),
+      drawer: const DrawerScreen(),
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 20,
-                right: 20,
-                top: 50,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                    child: const Icon(Icons.menu),
-                  ),
-                  const SizedBox(width: 20),
-                  const Text(
-                    "XCUT UNITE",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 19,
-                    ),
-                  ),
-                  const Spacer(),
-                  SvgPicture.asset(
-                    SvgIcons.shoppingCartIcon,
-                    color: Colors.black,
-                  )
-                ],
-              ),
-            ),
             Obx(
               () => homeController.isLoading.value
                   ? const CircularProgressIndicator(color: Colors.blue)
@@ -64,7 +62,7 @@ class HomeScreen extends StatelessWidget {
                         Obx(
                           () => homeController.bannerData.isEmpty
                               ? Container(
-                                  height: 170,
+                                  height: 150,
                                   width: Get.width * 0.75,
                                   margin: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
@@ -168,6 +166,7 @@ class HomeScreen extends StatelessWidget {
                                       SvgPicture.asset(
                                         height: 30,
                                         SvgIcons.calendarIcon,
+                                        // ignore: deprecated_member_use
                                         color: Colors.greenAccent.shade400,
                                       )
                                     ],

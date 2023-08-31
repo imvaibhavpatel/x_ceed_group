@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:xceed_group/main.dart';
@@ -9,7 +8,7 @@ import 'package:xceed_group/screen/dashboard/home/model/home_details_model.dart'
 import 'package:xceed_group/utils/base_url.dart';
 
 class HomeController extends GetxController {
-  var box = GetStorage();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   RxInt currentPage = 0.obs;
   RxBool isLoading = false.obs;
@@ -50,13 +49,11 @@ class HomeController extends GetxController {
   getHomeDetails({required String startDate, required String endDate}) async {
     isLoading.value = true;
     try {
-      var userId = box.read("userId");
-      var token = box.read("token");
       final response = await http.get(
           Uri.parse(
-              '${AppUrl.baseUrl}${AppUrl.homeAnalytics}&logged_in_userid=$userId&date_range=${DateFormat('yyyy-MM-dd').format(dateRange.value.start).toString()} - ${DateFormat('yyyy-MM-dd').format(dateRange.value.end).toString()}'),
+              '${AppUrl.baseUrl}${AppUrl.homeAnalytics}&logged_in_userid=${baseCon!.userid.value}&date_range=${DateFormat('yyyy-MM-dd').format(dateRange.value.start).toString()} - ${DateFormat('yyyy-MM-dd').format(dateRange.value.end).toString()}'),
           headers: {
-            "Authorization": "Bearer $token",
+            "Authorization": "Bearer ${baseCon!.token.value}",
             'Content-Type': 'application/json',
             'Accept': 'application/json',
           });
@@ -76,13 +73,11 @@ class HomeController extends GetxController {
   getBanner() async {
     isLoading.value = true;
     try {
-      var userId = box.read("userId");
-      var token = box.read("token");
       final response = await http.get(
           Uri.parse(
-              "https://beta-ow-api-v3.salestrendz.com/api/banners/bannerdetails?comp_id=749&logged_in_userid=$userId"),
+              "https://beta-ow-api-v3.salestrendz.com/api/banners/bannerdetails?comp_id=749&logged_in_userid=${baseCon?.userid.value}"),
           headers: {
-            "Authorization": "Bearer $token",
+            "Authorization": "Bearer ${baseCon?.token.value}",
             'Content-Type': 'application/json',
             'Accept': 'application/json',
           });
@@ -90,11 +85,10 @@ class HomeController extends GetxController {
         bannerData.value = bannerDetailsModelFromJson(response.body)
             .bannerDetails
             .banner150X150;
-        print(token);
-        print(baseController?.token.value);
       } else {
-        debugPrint("some error");
+        debugPrint(response.body);
       }
+      isLoading.value = false;
     } catch (e) {
       throw Exception(e..toString());
     } finally {

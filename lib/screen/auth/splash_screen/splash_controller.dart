@@ -14,7 +14,9 @@ class SplashController extends GetxController {
     Timer(
       const Duration(seconds: 3),
       () async {
-        var token = await box.read("token");
+        // baseCon!.getData();
+        var token = await box.read("user_token");
+
         if (token.toString() != "null" && token.toString().isNotEmpty) {
           Get.to(() => BottomBarScreen());
         } else {

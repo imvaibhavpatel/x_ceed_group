@@ -58,16 +58,18 @@ class LogInScreen extends StatelessWidget {
                         },
                       ),
                       const SizedBox(height: 20),
-                      CommonButton(
-                        text: "Sign In",
-                        onPressed: () {
-                          if (logInController.formKey.currentState!
-                              .validate()) {
-                            FocusScope.of(context).unfocus();
-                            logInController.logIn();
-                          }
-                        },
-                      ),
+                      logInController.isLoading.value
+                          ?  CircularProgressIndicator(color: AppColor.appColor)
+                          : CommonButton(
+                              text: "Sign In",
+                              onPressed: () {
+                                if (logInController.formKey.currentState!
+                                    .validate()) {
+                                  FocusScope.of(context).unfocus();
+                                  logInController.logIn();
+                                }
+                              },
+                            ),
                       const SizedBox(height: 20),
                       GestureDetector(
                         onTap: () => Get.to(

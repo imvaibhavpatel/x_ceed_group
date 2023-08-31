@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:xceed_group/main.dart';
 import 'package:xceed_group/screen/dashboard/order_screen/model/order_list_model.dart';
 import 'package:xceed_group/utils/base_url.dart';
 import 'package:http/http.dart' as http;
@@ -25,7 +25,6 @@ class OrderScreenController extends GetxController {
   RxList<String> value = <String>[].obs;
   RxList<OrderList> orderList = <OrderList>[].obs;
 
-  var box = GetStorage();
   var dateRange = DateTimeRange(
     start: DateTime(
         DateTime.now().year, DateTime.now().month, DateTime.now().day - 30),
@@ -62,19 +61,16 @@ class OrderScreenController extends GetxController {
       isLoading.value = false;
     }
     try {
-      var userId = box.read("userId");
-      var token = box.read("token");
       final response = await http.get(
         Uri.parse(
-            "${AppUrl.orderList}logged_in_userid=$userId&page=${page.value}&order_id=&status=${switchValue.join(",")}&date_range=${DateFormat('yyyy-MM-dd').format(dateRange.value.start).toString()} - ${DateFormat('yyyy-MM-dd').format(dateRange.value.end).toString()}"),
+            "${AppUrl.orderList}logged_in_userid=${baseCon?.userid.value}&page=${page.value}&order_id=&status=${switchValue.join(",")}&date_range=${DateFormat('yyyy-MM-dd').format(dateRange.value.start).toString()} - ${DateFormat('yyyy-MM-dd').format(dateRange.value.end).toString()}"),
         headers: {
-          "Authorization": "Bearer $token",
+          "Authorization": "Bearer ${baseCon?.token.value}",
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
       );
       if (response.statusCode == 200) {
-
         orderList.addAll(orderListModelFromJson(response.body).orderList);
         // ignore: unrelated_type_equality_checks
         if (orderListModelFromJson(response.body).page != page.value) {

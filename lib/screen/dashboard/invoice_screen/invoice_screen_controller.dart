@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:xceed_group/main.dart';
 import 'package:xceed_group/screen/dashboard/invoice_screen/model/invoice_list_model.dart';
 import 'package:xceed_group/utils/base_url.dart';
 
@@ -10,7 +10,6 @@ class InvoiceScreenController extends GetxController {
   TextEditingController searchCon = TextEditingController();
   ScrollController scrollController = ScrollController();
 
-  var box = GetStorage();
   RxInt invoiceID = 0.obs;
   RxInt page = 0.obs;
   RxString pages = "".obs;
@@ -51,13 +50,12 @@ class InvoiceScreenController extends GetxController {
       } else {
         isLoading.value = false;
       }
-      var userId = box.read("userId");
-      var token = box.read("token");
+
       final response = await http.get(
           Uri.parse(
-              "${AppUrl.baseUrl}${AppUrl.invoiceList}&logged_in_userid=$userId&page=${page.value}&limit=15&date_range=${DateFormat('yyyy-MM-dd').format(dateRange.value.start)} - ${DateFormat('yyyy-MM-dd').format(dateRange.value.end)}&keyword=${searchCon.text.trim()}"),
+              "${AppUrl.baseUrl}${AppUrl.invoiceList}&logged_in_userid=${baseCon?.userid.value}&page=${page.value}&limit=15&date_range=${DateFormat('yyyy-MM-dd').format(dateRange.value.start)} - ${DateFormat('yyyy-MM-dd').format(dateRange.value.end)}&keyword=${searchCon.text.trim()}"),
           headers: {
-            "Authorization": "Bearer $token",
+            "Authorization": "Bearer ${baseCon?.token.value}",
             'Content-Type': 'application/json',
             'Accept': 'application/json',
           });
@@ -66,10 +64,8 @@ class InvoiceScreenController extends GetxController {
             .addAll(invoiceListModelFromJson(response.body).result.data);
         if (invoiceListModelFromJson(response.body).result.currentPage !=
             page.value) {
-
           page.value = page.value + 1;
         }
-
       } else {
         debugPrint(response.body);
       }

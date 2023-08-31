@@ -1,9 +1,9 @@
-import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:xceed_group/main.dart';
+import 'package:xceed_group/screen/auth/log_in_screen/model/log_in_model.dart';
 import 'package:xceed_group/screen/auth/register_as_consumer/register_as_consumer_screen.dart';
 import 'package:xceed_group/screen/auth/register_as_distributor/register_as_distributor_screen.dart';
 import 'package:xceed_group/screen/auth/register_as_retailer/register_as_retailer_screen.dart';
@@ -19,6 +19,8 @@ class LogInController extends GetxController {
 
   RxBool isEyes = false.obs;
   RxInt category = 1.obs;
+  RxBool isLoading = false.obs;
+  Rx<Result> logInData = Result().obs;
 
   registerForm() {
     if (category.value == 1) {
@@ -52,6 +54,7 @@ class LogInController extends GetxController {
   }
 
   logIn() async {
+    isLoading.value = true;
     try {
       final response = await http.post(
         Uri.parse(AppUrl.baseUrl + AppUrl.logIn),
@@ -63,17 +66,19 @@ class LogInController extends GetxController {
         },
       );
       if (response.statusCode == 200) {
-        box.write("token",
-            jsonDecode(response.body)["response"]["result"]["token"] ?? "");
-        box.write("userId",
-            jsonDecode(response.body)["response"]["result"]["user_id"] ?? "");
-        baseController?.getData();
+        logInData.value = logInModelFromJson(response.body).response.result;
+        await box.write("user_token", logInData.value.token.toString());
+        await box.write("user_id", logInData.value.userId);
+        await box.write("user_fname", logInData.value.userFname.toString());
+        baseCon?.getData();
         Get.to(() => BottomBarScreen());
       } else {
         debugPrint("some error");
       }
     } catch (e) {
       throw Exception(e.toString());
+    } finally {
+      isLoading.value = false;
     }
   }
 

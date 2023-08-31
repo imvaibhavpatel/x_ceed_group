@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:xceed_group/main.dart';
 import 'package:xceed_group/screen/dashboard/out_standing_amount_screen/model/out_standing_details_model.dart';
 import 'package:xceed_group/screen/dashboard/out_standing_amount_screen/out_standing_amount_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:xceed_group/utils/base_url.dart';
 
 class OutStandingDetailsController extends GetxController {
-  var box = GetStorage();
   ScrollController scrollController = ScrollController();
 
   RxInt page = 0.obs;
@@ -48,14 +47,13 @@ class OutStandingDetailsController extends GetxController {
       isLoading.value = false;
     }
     try {
-      var userId = box.read("userId");
-      var token = box.read("token");
+
       final response = await http.get(
           Uri.parse(dropDownValue.value.isEmpty
-              ? "${AppUrl.baseUrl}${AppUrl.outStandingData}&logged_in_userid=$userId&page=${page.value}&limit=15"
-              : "${AppUrl.baseUrl}${AppUrl.outStandingData}&logged_in_userid=$userId&page=${page.value}&limit=15&outstanding_status=${dropDownValue.value}"),
+              ? "${AppUrl.baseUrl}${AppUrl.outStandingData}&logged_in_userid=${baseCon?.userid.value}&page=${page.value}&limit=15"
+              : "${AppUrl.baseUrl}${AppUrl.outStandingData}&logged_in_userid=${baseCon?.userid.value}&page=${page.value}&limit=15&outstanding_status=${dropDownValue.value}"),
           headers: {
-            "Authorization": "Bearer $token",
+            "Authorization": "Bearer ${baseCon?.token.value}",
             'Content-Type': 'application/json',
             'Accept': 'application/json',
           });

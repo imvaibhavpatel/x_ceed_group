@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:xceed_group/main.dart';
 import 'package:xceed_group/screen/dashboard/invoice_details/model/invoice_detail_model.dart';
 import 'package:xceed_group/utils/base_url.dart';
 
 class InvoiceDetailsController extends GetxController {
-  var box = GetStorage();
-
   RxInt invoiceId = 0.obs;
   RxBool isLoading = false.obs;
   Rx<InvoiceDetailModel> invoiceData = InvoiceDetailModel().obs;
@@ -15,13 +13,11 @@ class InvoiceDetailsController extends GetxController {
   getInvoiceDetails() async {
     isLoading.value = true;
     try {
-      var userId = box.read("userId");
-      var token = box.read("token");
       final response = await http.get(
           Uri.parse(
-              "${AppUrl.baseUrl}${AppUrl.invoiceDetails}&logged_in_userid=$userId&invoice_id=$invoiceId"),
+              "${AppUrl.baseUrl}${AppUrl.invoiceDetails}&logged_in_userid=${baseCon?.userid.value}&invoice_id=$invoiceId"),
           headers: {
-            "Authorization": "Bearer $token",
+            "Authorization": "Bearer ${baseCon?.token.value}",
             'Content-Type': 'application/json',
             'Accept': 'application/json',
           });
