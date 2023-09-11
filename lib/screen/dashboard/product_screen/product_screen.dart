@@ -154,7 +154,7 @@ class ProductScreen extends StatelessWidget {
                                   margin: const EdgeInsets.only(left: 10),
                                   decoration: BoxDecoration(
                                       color: Colors.deepPurple.shade50,
-                                      borderRadius: BorderRadius.circular(10)),
+                                      borderRadius: BorderRadius.circular(10),),
                                   child: const ConText(
                                     text: "0",
                                     fontWeight: FontWeight.bold,

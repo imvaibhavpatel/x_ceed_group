@@ -56,7 +56,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             Obx(
               () => homeController.isLoading.value
-                  ? const CircularProgressIndicator(color: Colors.blue)
+                  ? CircularProgressIndicator(color: Colors.blue)
                   : Column(
                       children: [
                         Obx(

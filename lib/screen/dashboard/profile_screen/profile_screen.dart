@@ -5,6 +5,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:xceed_group/screen/auth/log_in_screen/log_in_screen.dart';
 import 'package:xceed_group/screen/dashboard/drawer/drawer_screen.dart';
 import 'package:xceed_group/screen/dashboard/profile_screen/profile_screen_controller.dart';
+import 'package:xceed_group/screen/dashboard/profile_screen/screens/address__screen.dart';
+import 'package:xceed_group/screen/dashboard/profile_screen/screens/change_password_screen.dart';
 import 'package:xceed_group/utils/icons.dart';
 import 'package:xceed_group/utils/svg_icons.dart';
 
@@ -82,12 +84,12 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                   CommonRow(
-                    onTap: () {},
+                    onTap: () => Get.to(AddressScreen()),
                     text: "Address",
                     image: AppIcons.location,
                   ),
                   CommonRow(
-                    onTap: () {},
+                    onTap: () => Get.to(ChangePasswordScreen()),
                     text: "Change Password",
                     image: AppIcons.lock,
                   ),
